@@ -21,8 +21,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
-  }
- 
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CodeEnthusiast09/notification-system/issues"
