@@ -20,11 +20,15 @@
     "template": "cd services/template-service && python main.py"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.8",
     "concurrently": "^8.2.2"
   },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CodeEnthusiast09/notification-system/issues"
   },
-  "homepage": "https://github.com/CodeEnthusiast09/notification-system#readme"
+  "homepage": "https://github.com/CodeEnthusiast09/notification-system#readme",
+  "dependencies": {
+    "@nestjs/config": "^4.0.2"
+  }
 }
