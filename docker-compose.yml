@@ -122,9 +122,9 @@ services:
       - DATABASE_URL=DATABASE_URL
       - REDIS_HOST=redis
     env_file:
-      - ./services/user-service/user-service/.env
+      - ./services/user-service/user-services/.env
     volumes:
-      - ./services/user-service/user-service:/app
+      - ./services/user-service/user-services:/app
       - /app/node_modules
     depends_on:
       redis:
