@@ -72,3 +72,5 @@ dmypy.json
 
 # Ruff
 .ruff_cache/
+
+serviceAccount.json
