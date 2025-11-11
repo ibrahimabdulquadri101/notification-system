@@ -10,3 +10,8 @@ python-multipart
 google-auth
 requests
 pytest
+pytest-asyncio
+
+pytest-cov
+pytest-mock
+faker

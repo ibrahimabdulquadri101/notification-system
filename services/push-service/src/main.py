@@ -17,6 +17,8 @@ from src.schemas import HealthResponse
 import time
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
+from datetime import datetime, timezone
+import base64
 
 load_dotenv()
 
@@ -32,13 +34,19 @@ REDIS_URL = os.getenv("REDIS_URL")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, "serviceAccount.json")
+SERVICE_ACCOUNT_FILE_BASE64 = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if SERVICE_ACCOUNT_FILE_BASE64:
+    SERVICE_ACCOUNT_FILE_JSON = base64.b64decode(SERVICE_ACCOUNT_FILE_BASE64).decode(
+        "utf-8"
+    )
+    SERVICE_ACCOUNT_FILE = json.loads(SERVICE_ACCOUNT_FILE_JSON)
+
 
 PROJECT_ID = os.getenv("FIREBASE_PROJECT_ID")
 FCM_V1_URL = f"https://fcm.googleapis.com/v1/projects/{PROJECT_ID}/messages:send"
 
 SCOPES = ["https://www.googleapis.com/auth/firebase.messaging"]
-credentials = service_account.Credentials.from_service_account_file(
+credentials = service_account.Credentials.from_service_account_info(
     SERVICE_ACCOUNT_FILE, scopes=SCOPES
 )
 
@@ -274,7 +282,7 @@ async def health_check():
     return HealthResponse(
         status="healthy",
         service="push-service",
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc).isoformat(),
         queue_connected=state.rabbitmq_connection is not None
         and not state.rabbitmq_connection.is_closed,
         redis_connected=state.redis_client is not None,

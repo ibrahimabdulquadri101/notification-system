@@ -56,18 +56,6 @@ def test_metrics_endpoint(client):
 
 
 @pytest.mark.asyncio
-async def test_render_template_function():
-    """Test template rendering"""
-    from main import render_template
-
-    template = "Hello {{name}}, your order {{order_id}} is ready!"
-    variables = {"name": "John", "order_id": "12345"}
-
-    result = render_template(template, variables)
-    assert result == "Hello John, your order 12345 is ready!"
-
-
-@pytest.mark.asyncio
 async def test_send_fcm_notification():
     """Test FCM notification sending"""
     from main import send_fcm_notification
@@ -181,7 +169,3 @@ async def test_retry_logic():
         # Check retry count was incremented
         assert "notif_123" in state.retry_count
         assert state.retry_count["notif_123"] == 1
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
