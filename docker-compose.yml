@@ -144,8 +144,6 @@ services:
     container_name: notif-push-service
     ports:
       - "3003:3003"
-    env_file:
-      - ./.env
     environment:
       - PYTHONUNBUFFERED=1
       - PORT=3003
@@ -173,8 +171,6 @@ services:
     container_name: notif-template-service
     ports:
       - "3004:3004"
-    env_file:
-      - ./.env
     environment:
       - PYTHONUNBUFFERED=1
       - PORT=3004
