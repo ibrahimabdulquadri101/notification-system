@@ -59,7 +59,7 @@ services:
       timeout: 10s
       retries: 5
 
-  # API Gateway (NodeJS)
+  # API Gateway (NodeJS/Fastify)
   api-gateway:
     build:
       context: ./services/api-gateway
@@ -69,21 +69,27 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - PORT=3000
+      - API_GATEWAY_PORT=3000
+      - DATABASE_URL=postgresql://notif_user:notif_password@postgres:5432/notification_system
       - RABBITMQ_HOST=rabbitmq
-      - REDIS_HOST=redis
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
       - USER_SERVICE_URL=http://user-service:3002
+      - TEMPLATE_SERVICE_URL=http://template-service:3004
+      - JWT_SECRET=HAD_12X#@
+      - SERVICE_TOKEN=internal-service-token
     volumes:
       - ./services/api-gateway:/app
       - /app/node_modules
     depends_on:
-      rabbitmq:
+      postgres:
         condition: service_healthy
-      redis:
+      rabbitmq:
         condition: service_healthy
     networks:
       - notif-network
-    command: npm run dev
+    command: npm run start:dev
 
   # Email Service (NestJS)
   email-service:
